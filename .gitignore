@@ -1,0 +1,20 @@
+# 1. Byte-compiled / Optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 2. Caches và log của Colab/Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# 3. Model weights & Data
+*.pth
+*.pt
+*.hex
+*.txt
+*.log
+
+# 4. Virtual Environment
+venv/
+env/
+.env
