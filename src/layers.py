@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-class multiHeadAttention(nn.Module):
+class MultiHeadAttention(nn.Module):
   def __init__(self, cfg):
     super().__init__()
     self.embed_dim = cfg.embed_dim

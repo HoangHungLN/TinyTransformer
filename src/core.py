@@ -1,13 +1,13 @@
 import torch
 import torch.nn as nn
-from layers import multiHeadAttention, Mlp, LayerNorm
+from layers import MultiHeadAttention, Mlp, LayerNorm
 
-class encoder(nn.Module):
+class Encoder(nn.Module):
   # Pre-normalization
   def __init__(self, cfg):
     super().__init__()
     self.norm1 = LayerNorm(cfg.embed_dim)
-    self.attn = multiHeadAttention(cfg)
+    self.attn = MultiHeadAttention(cfg)
     self.norm2 = LayerNorm(cfg.embed_dim)
     self.mlp = Mlp(cfg)
 
@@ -16,14 +16,14 @@ class encoder(nn.Module):
     x = x + self.mlp(self.norm2(x))
     return x
 
-class tinyTransformer(nn.Module):
+class TinyTransformer(nn.Module):
   """
   Hardware: Accelerator Core.
   """
   def __init__(self, cfg):
     super().__init__()
     self.pos_embed = nn.Parameter(torch.zeros(1, cfg.max_seq_len, cfg.embed_dim))
-    self.encoders = nn.ModuleList([encoder(cfg) for _ in range(cfg.depth)])
+    self.encoders = nn.ModuleList([Encoder(cfg) for _ in range(cfg.depth)])
     self.norm = LayerNorm(cfg.embed_dim)
     self.head = nn.Linear(cfg.embed_dim, cfg.num_classes)
 
