@@ -8,6 +8,7 @@ __pycache__/
 *.ipynb_checkpoints
 
 # 3. Model weights & Data
+/data
 *.pth
 *.pt
 *.hex
