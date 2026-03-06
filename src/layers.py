@@ -1,6 +1,22 @@
 import torch
 import torch.nn as nn
 
+class HardwareSoftmax(nn.Module):
+  """
+  Softmax cơ số 2
+  """
+  def __init__(self, dim = -1):
+    super().__init__()
+    self.dim = dim
+
+  def forward(self, x):
+    max_x = torch.max(x, dim = self.dim, keepdim = True)[0]
+    x_safe = x - max_x
+
+    numerator = torch.pow(2.0, x_safe)
+    denominator = torch.sum(numerator, dim = self.dim, keepdim = True)
+    return numerator / denominator
+
 class MultiHeadAttention(nn.Module):
   def __init__(self, cfg):
     super().__init__()
@@ -12,6 +28,8 @@ class MultiHeadAttention(nn.Module):
     # Gom Wq, Wk, Wv vào chung một tensor để tối ưu việc load dữ liệu từ SRAM
     self.qkv = nn.Linear(cfg.embed_dim, cfg.embed_dim * 3, bias = False)
     self.proj = nn.Linear(cfg.embed_dim, cfg.embed_dim)
+    self.hw_softmax = HardwareSoftmax(dim = -1)
+
 
   def forward(self, x):
     B, N, C = x.shape
@@ -32,7 +50,8 @@ class MultiHeadAttention(nn.Module):
 
     #Đưa qua hàm Softmax
     #[HW mapping]: Hiện thực Softmax với exp(x) xấp xỉ dùng LUT hoặc xấp xỉ đa thức
-    attn = attn.softmax(dim = -1)
+    #attn = attn.softmax(dim = -1)
+    attn = self.hw_softmax(attn)
 
     #Tính attn_score * V
     x = (attn @ v).transpose(1, 2).reshape(B, N, C)
