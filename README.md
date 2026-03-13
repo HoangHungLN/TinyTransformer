@@ -6,7 +6,7 @@ Mục đích chính của Golden Model này là cung cấp tính toán chuẩn x
 
 ---
 
-## 🚀 Đặc tả kiến trúc (Architecture Specifications)
+## Đặc tả kiến trúc (Architecture Specifications)
 
 Mô hình được thiết kế tinh gọn để phù hợp với tài nguyên phần cứng giới hạn trên SoC. Các cấu hình phần cứng cốt lõi (xem chi tiết tại `config.py`):
 
@@ -21,7 +21,7 @@ Mô hình được thiết kế tinh gọn để phù hợp với tài nguyên p
 
 ---
 
-## 🧩 Ánh xạ phần cứng (Hardware Mapping)
+## Ánh xạ phần cứng (Hardware Mapping)
 
 Mã nguồn được chú thích rõ ràng để định hướng cho việc viết mã RTL. Các ánh xạ phần cứng chính bao gồm:
 
@@ -44,7 +44,7 @@ Mã nguồn được chú thích rõ ràng để định hướng cho việc vi�
 
 ---
 
-## 📂 Cấu trúc thư mục (File Structure)
+## Cấu trúc thư mục (File Structure)
 
 - `config.py`: Chứa class `TinyConfig` định nghĩa toàn bộ siêu tham số (hyperparameters) và ràng buộc phần cứng.
 - `core.py`: Định nghĩa lõi kiến trúc `Encoder` (với Pre-normalization) và toàn bộ mạng `TinyTransformer` (tích hợp Positional Embedding và Global Average Pooling).
